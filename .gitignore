@@ -1,0 +1,20 @@
+# Python
+_pycache_/
+*.py[cod]
+.Python
+env/
+venv/
+.env/
+*.egg-info/
+.venv/
+
+# VS Code settings
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Mac OS
+.DS_Store
+# Ignore the virtual environment folder
+.venv
