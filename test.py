@@ -43,12 +43,50 @@ y_val_tensor = torch.tensor(y_val, dtype=torch.float32)
 X_test_tensor = torch.tensor(X_test, dtype=torch.float32)
 y_test_tensor = torch.tensor(y_test, dtype=torch.float32)
 
-
 input_dim = X_train.shape[1]
-
 model = MLP_Regressor(input_dim)  # Modeli tekrar oluştur
-model.load_state_dict(torch.load("mlp_regressor.pth"))  # Eğitilmiş ağırlıkları yükle
+criterion = nn.MSELoss()
+model.load_state_dict(torch.load("/output/mlp_regressor.pth"))  # Eğitilmiş ağırlıkları yükle
 model.eval()  # Modeli eval moduna al
+
+epochs = 200
+model.eval()
+
+with torch.no_grad():
+    y_test_pred = model(X_test_tensor)
+    test_loss = criterion(y_test_pred, y_test_tensor).item()
+    y_test_pred = y_test_pred.numpy()
+    y_test_true = y_test_tensor.numpy()
+
+mse = mean_squared_error(y_test_true, y_test_pred)
+rmse = np.sqrt(mse)
+mae = mean_absolute_error(y_test_true, y_test_pred)
+r2 = r2_score(y_test_true, y_test_pred)
+
+print("\n📌 Test Set Metrics:")
+print(f"✅ MSE (Mean Squared Error): {mse:.4f}")
+print(f"✅ RMSE (Root Mean Squared Error): {rmse:.4f}")
+print(f"✅ MAE (Mean Absolute Error): {mae:.4f}")
+print(f"✅ R² Score (R-Squared): {r2:.4f}")
+print(f"✅ Test Loss (MSE): {test_loss:.4f}")
+
+
+test_results = {
+    "Epoch": epochs,
+    "MSE": mse,
+    "RMSE": rmse,
+    "MAE": mae,
+    "R2": r2,
+    "Test Loss": test_loss
+}
+
+df_results = pd.DataFrame([test_results])
+df_results.to_csv("test_results.csv", index=False)
+print("\n✅ Test sonuçları başarıyla kaydedildi: test_results.csv")
+
+
+
+
 
 sample_inputs,sample_label = X_test_tensor[1],y_test_tensor[1]
 
