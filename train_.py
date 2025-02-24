@@ -122,7 +122,7 @@ print(f"✅ Test Loss (MSE): {test_loss:.4f}")
 
 # 📌 14. MODELİ KAYDETME
 folder_path = file_path = wd + "/output" 
-model_path = "mlp_regressor.pth"
+model_path = "/mlp_regressor.pth"
 save_path = folder_path + model_path
 torch.save(model.state_dict(), save_path)
 print(f"\n✅ Model saved: {model_path}")
@@ -151,5 +151,5 @@ plt.ylabel("Loss")
 plt.title("Eğitim ve Validation Loss Grafiği")
 plt.legend()
 plt.grid()
-plt.savefig("loss_curve_mlp.png")
+plt.savefig("/output/loss_curve_mlp.png")
 plt.show()
